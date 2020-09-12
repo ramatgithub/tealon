@@ -26,18 +26,18 @@ http.send(params);
 function handleSubmit(){
 	console.log("First name = "+ document.getElementById("fname").value);
 	console.log("Last name = "+ document.getElementById("lname").value);
-
+	return false;
 }
 </script>
 </head>
 <body>
 	<h1> will this convert chat conv. to a lead ? 7</h1>
-	<form action="">
+	<form action="" method="post">
   <label for="fname">First name:</label><br>
   <input type="text" id="fname" name="fname" value="John"><br>
   <label for="lname">Last name:</label><br>
   <input type="text" id="lname" name="lname" value="Doe"><br><br>
-  <input type="submit" value="Submit" onclick="handleSubmit();">
+  <input type="submit" value="Submit" onclick="return handleSubmit();">
 </form> 
 </body>
 </html>
