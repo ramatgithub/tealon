@@ -6,6 +6,7 @@
 <meta charset="UTF-8">
 <script type="text/javascript">
 	console.log("console log is working");
+	function postData() {
 	var http = new XMLHttpRequest();
 var url = 'https://eventbus.intuit.com/v2/segment/sbseg-qbo-clickstream/t';
 var params = 'orem=ipsum&name=binny';
@@ -20,16 +21,23 @@ http.onreadystatechange = function() {//Call a function when the state changes.
     }
 }
 http.send(params);
+}
+
+function handleSubmit(){
+	console.log("First name = "+ document.getElementById("fname"));
+	console.log("Last name = "+ document.getElementById("lname"));
+
+}
 </script>
 </head>
 <body>
 	<h1> will this convert chat conv. to a lead ? 5</h1>
-	<form action="/action_page.php">
+	<form action="">
   <label for="fname">First name:</label><br>
   <input type="text" id="fname" name="fname" value="John"><br>
   <label for="lname">Last name:</label><br>
   <input type="text" id="lname" name="lname" value="Doe"><br><br>
-  <input type="submit" value="Submit">
+  <input type="submit" value="Submit" onclick="handleSubmit();">
 </form> 
 </body>
 </html>
