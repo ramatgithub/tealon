@@ -1,0 +1,90 @@
+<!DOCTYPE>
+<html>
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<title>Chat Lead Conversion</title>
+<meta charset="UTF-8">
+<script type="text/javascript">
+	console.log("console log is working");
+	var traitPayload = {"timestamp":"2020-09-12T21:58:34.305Z","context":{"ecs_version":"3.3","enriched_ecs_version":"3.3","page":{"url":"https://perfsp.quickbooks.intuit.com/oicms/leadgenwebformtestpage6/","path":"/oicms/leadgenwebformtestpage6","referrer":"","search":"","title":"Lead Gen Webform Test Page6 - OICMS"},"userAgent":"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.102 Safari/537.36","library":{"name":"analytics.js","version":"3.10.1"}},"anonymousId":"72c1e79f-767d-55b6-b0f0-151983e00eec","integrations":{"Adobe Analytics":{"visitorId":"2E72358B050334E2-40001198E00000B6","marketingCloudVisitorId":"91503051801549153701115105798563626663"}},"traits":{"browser_encoding":"UTF-8","browser_height":324,"browser_java_enabled":false,"browser_plugins":"Chrome PDF Plugin;Chrome PDF Viewer;Native Client","locale":"en-US","screen_color_depth":24,"url_host_name":"perfsp.quickbooks.intuit.com","browser_cookies_enabled":true,"page_language":"en-US","aam_segment_ids":"15162893:15354049:15354106:16601754:16601478:16602502:16602119:16602645:16602780:16603107:16603002:16602973:16603098:17726309:18588905:18589926:18590140:18590336:18590557:17861345:14148975:14513458:13763583:13714989:13714997:14149000:15155765","adobe_fid":"7AC6288EEB33396A-38A0F5066D4FD945","adobe_aid":"2E72358B050334E2-40001198E00000B6","ivid":"72c1e79f-767d-55b6-b0f0-151983e00eec","org":"sbseg","purpose":"mktg","scope":"mktg_site","ecs_version":"3.3","write_key":"NSfYSMcSLpa4rH2wm2VxshxHRk3hJQE8","env":"e2e","loadAdobeVisitorApi":false,"platform":"web","url":"https://perfsp.quickbooks.intuit.com/oicms/leadgenwebformtestpage6/","path":"/oicms/leadgenwebformtestpage6","url_clean":"perfsp.quickbooks.intuit.com/oicms/leadgenwebformtestpage6","page_name_parameter":"sbseg|mktg|mktg_site|oicms|oicms/leadgenwebformtestpage6","top_scope_area":"oicms","top_screen":"oicms/leadgenwebformtestpage6","event_sender_path":[{"name":"OICMS","version":"1.0","scope_area":"oicms","screen":"oicms/leadgenwebformtestpage6"}],"first_name":"valentia","last_name":"koriana","email":"val_kor@aoil.com","phone":"+16509443297"},"userId":500826124,"messageId":"ajs-cb8c14ed4b8192499ef745a5ea12de40","type":"identify","writeKey":"NSfYSMcSLpa4rH2wm2VxshxHRk3hJQE8","sentAt":"2020-09-12T21:58:34.312Z","_metadata":{"bundled":["Segment.io"],"unbundled":["Adobe Analytics"]}};
+
+	var eventBusUrlPrefix = 'https://eventbus-e2e.api.intuit.com/v2/segment/sbseg-qbo-clickstream/';
+	var traitSuffix = 'i';
+	var eventSuffix = 't';
+
+	function postData(payload,url) {
+	var xhr = new XMLHttpRequest();
+
+	// listen for `load` event
+xhr.onload = () => {
+
+    // print JSON response
+    if (xhr.status >= 200 && xhr.status < 300) {
+        // parse JSON
+        const response = JSON.parse(xhr.responseText);
+        console.log(response);
+    }
+};
+
+// open request
+xhr.open('POST', url);
+
+
+// set `Content-Type` header
+xhr.setRequestHeader('Content-Type', 'application/json');
+xhr.setRequestHeader('accept', '*/*');
+
+// send rquest with JSON payload
+xhr.send(JSON.stringify(payload));
+
+}
+
+function handleSubmit(){
+	try{
+	var firstName =  document.getElementById("fname").value;
+	var lastName = document.getElementById("lname").value;
+	console.log("traits = "+this.traitPayload.traits);
+	this.traitPayload.traits.first_name = firstName;
+	this.traitPayload.traits.last_name = lastName;
+	this.postData(this.traitPayload, this.eventBusUrlPrefix+this.traitSuffix);
+}catch(error)
+{
+	console.log(error);
+}
+
+	return false;	
+}
+</script>
+</head>
+<body>
+	<h1> will this convert chat conv. to a lead ? ver: 10</h1>
+	<form action="" method="post">
+  <label for="fname">First name:</label><br>
+  <input type="text" id="fname" name="fname" value="John"><br>
+  <label for="lname">Last name:</label><br>
+  <input type="text" id="lname" name="lname" value="Doe"><br><br>
+  <input type="submit" value="Submit" onclick="return handleSubmit();">
+</form> 
+</body>
+</html>
+
+
+const request = require('request-promise');
+
+const options = {
+    method: 'POST',
+    uri: 'https://eventbus-e2e.api.intuit.com/v2/segment/sbseg-qbo-clickstream/i',
+    body: req.body,
+    json: true,
+    headers: {
+        'Content-Type': 'application/json'
+        
+    }
+}
+
+request(options).then(function (response){
+    res.status(200).json(response);
+})
+.catch(function (err) {
+    console.log(err);
+})

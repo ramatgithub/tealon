@@ -6,37 +6,76 @@
 <meta charset="UTF-8">
 <script type="text/javascript">
 	console.log("console log is working");
-	function postData() {
-	var http = new XMLHttpRequest();
-var url = 'https://eventbus.intuit.com/v2/segment/sbseg-qbo-clickstream/t';
-var params = 'orem=ipsum&name=binny';
-http.open('POST', url, true);
+	
 
-//Send the proper header information along with the request
-http.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+	var webhookPostUrl = 'https://marketingevents-e2e.api.intuit.com/v1/processData';
+	var payload = {first_name: "",last_name : "",email:"",phone:"",product_family_of_interest:"",channel: "chat"};
+	var product_family_of_interest_val = "QBO";
 
-http.onreadystatechange = function() {//Call a function when the state changes.
-    if(http.readyState == 4 && http.status == 200) {
-        alert(http.responseText);
+	function postData(payload,url) {
+	var xhr = new XMLHttpRequest();
+
+	// listen for `load` event
+xhr.onload = () => {
+
+    // print JSON response
+    if (xhr.status >= 200 && xhr.status < 300) {
+        // parse JSON
+        const response = JSON.parse(xhr.responseText);
+        console.log(response);
     }
-}
-http.send(params);
+};
+
+// open request
+xhr.open('POST', url);
+
+
+// set `Content-Type` header
+xhr.setRequestHeader('Content-Type', 'application/json');
+xhr.setRequestHeader('accept', '*/*');
+xhr.setRequestHeader('Authorization', 'Intuit_APIKey intuit_apikey=preprdakyresmHQcpu5KStuX9sv6aW6Fhg4L8Sys');
+xhr.setRequestHeader('SourceName','Segment - Personas Dev Test');
+
+// send rquest with JSON payload
+xhr.send(JSON.stringify(payload));
+
 }
 
 function handleSubmit(){
-	console.log("First name = "+ document.getElementById("fname").value);
-	console.log("Last name = "+ document.getElementById("lname").value);
+	try{
+	var firstName =  document.getElementById("fname").value;
+	var lastName = document.getElementById("lname").value;
+	var email = document.getElementById("email").value;
+	var phone = document.getElementById("phone").value;
+	this.payload.first_name=firstName;
+	this.payload.last_name=lastName;
+	this.payload.email=email;
+	this.payload.phone=phone;
+	this.payload.product_family_of_interest=this.product_family_of_interest_val;
+
+	this.postData(this.payload, this.webhookPostUrl);
+}catch(error)
+{
+	console.log(error);
+}
+
 	return false;	
 }
 </script>
 </head>
 <body>
-	<h1> will this convert chat conv. to a lead ? ver: 7</h1>
+	<h1> ver: 12</h1>
 	<form action="" method="post">
   <label for="fname">First name:</label><br>
-  <input type="text" id="fname" name="fname" value="John"><br>
+  <input type="text" id="fname" name="fname" value=""><br><br>
   <label for="lname">Last name:</label><br>
-  <input type="text" id="lname" name="lname" value="Doe"><br><br>
+  <input type="text" id="lname" name="lname" value=""><br><br>
+  <label for="lname">Email:</label><br>
+  <input type="text" id="email" name="email" value=""><br><br>
+  <label for="lname">Phone:</label><br>
+  <input type="text" id="phone" name="phone" value=""><br><br>
+
+
   <input type="submit" value="Submit" onclick="return handleSubmit();">
 </form> 
 </body>
