@@ -4,79 +4,86 @@
 	<meta http-equiv="content-type" content="text/html; charset=UTF-8">
 <title>Chat Lead Conversion</title>
 <meta charset="UTF-8">
+
+</head>
+<body>
+	<h1> ver: 12.9994</h1>
+	<div id="mainDiv">
+	<form>
+ 		 <label for="fname">First name:</label><br>
+		  <input type="text" id="fname" name="fname" value="sdsdfsdsd"/><br><br>
+		  <label for="lname">Last name:</label><br>
+		  <input type="text" id="lname" name="lname" value="sdsdsdsd"/><br><br>
+		  <label for="lname">Email:</label><br>
+		  <input type="text" id="email" name="email" value="sdsdsd"/><br><br>
+		  <label for="lname">Phone:</label><br>
+		  <input type="text" id="phone" name="phone" value="sdsdsdsd"/><br><br>
+
+
+		  <input id="lead-create" type="button" value="Submit"/>
+	</form> 
+	</div>
 <script type="text/javascript">
 	console.log("console log is working");
 	
-
-	var webhookPostUrl = 'https://marketingevents-e2e.api.intuit.com/v1/processData';
-	var payload = {first_name: "",last_name : "",email:"",phone:"",product_family_of_interest:"",channel: "chat"};
-	var product_family_of_interest_val = "QBO";
+	var button;
+	button = document.getElementById('lead-create');
+  	button.addEventListener('click', handleSubmit);
 
 	function postData(payload,url) {
-	var xhr = new XMLHttpRequest();
+		var xhr = new XMLHttpRequest();
 
-	// listen for `load` event
-xhr.onload = () => {
+		xhr.onload = () => {
+			try{
+    			if (xhr.status >= 200 && xhr.status < 300) {
+        			// parse JSON
+       				 //const response = JSON.parse(xhr.responseText);
+       				console.log("done posting ...");
+   				 }
+			}finally{	
+				document.getElementById("mainDiv").innerHTML = "<h2>Lead submitted!</h2>";
+  				button.removeEventListener('click',handleSubmit);
+			}
+		};
 
-    // print JSON response
-    if (xhr.status >= 200 && xhr.status < 300) {
-        // parse JSON
-        const response = JSON.parse(xhr.responseText);
-        console.log(response);
-    }
-};
-
-// open request
-xhr.open('POST', url);
+		xhr.open('POST', url);
 
 
-// set `Content-Type` header
-xhr.setRequestHeader('Content-Type', 'application/json');
-xhr.setRequestHeader('accept', '*/*');
-xhr.setRequestHeader('Authorization', 'Intuit_APIKey intuit_apikey=preprdakyresmHQcpu5KStuX9sv6aW6Fhg4L8Sys');
-xhr.setRequestHeader('SourceName','Segment - Personas Dev Test');
+		xhr.setRequestHeader('Content-Type', 'application/json');
+		xhr.setRequestHeader('accept', '*/*');
+		xhr.setRequestHeader('Authorization', 'Intuit_APIKey intuit_apikey=preprdakyresmHQcpu5KStuX9sv6aW6Fhg4L8Sys');
+		xhr.setRequestHeader('SourceName','Segment - Personas Dev Test');
 
-// send rquest with JSON payload
-xhr.send(JSON.stringify(payload));
+		xhr.send(JSON.stringify(payload));
 
-}
+	}
 
-function handleSubmit(){
+	function handleSubmit()
+	{
+	var payload = {first_name: "",last_name : "",email:"",phone:"",product_family_of_interest:"",channel: "chat"};
+	var webhookPostUrl = 'https://marketingevents-e2e.api.intuit.com/v1/processData';
+	var product_family_of_interest_val = "QBO";
+
 	try{
-	var firstName =  document.getElementById("fname").value;
-	var lastName = document.getElementById("lname").value;
-	var email = document.getElementById("email").value;
-	var phone = document.getElementById("phone").value;
-	this.payload.first_name=firstName;
-	this.payload.last_name=lastName;
-	this.payload.email=email;
-	this.payload.phone=phone;
-	this.payload.product_family_of_interest=this.product_family_of_interest_val;
+		var firstName =  document.getElementById("fname").value;
+		var lastName = document.getElementById("lname").value;
+		var email = document.getElementById("email").value;
+		var phone = document.getElementById("phone").value;
+		payload.first_name=firstName;
+		payload.last_name=lastName;
+		payload.email=email;
+		payload.phone=phone;
+		payload.product_family_of_interest=product_family_of_interest_val;
 
-	this.postData(this.payload, this.webhookPostUrl);
-}catch(error)
-{
-	console.log(error);
-}
+		postData(payload, webhookPostUrl);
+	}catch(error)
+	{
+		console.log(error);
+	}
 
 	return false;	
-}
+	}
+  	
 </script>
-</head>
-<body>
-	<h1> ver: 12</h1>
-	<form action="" method="post">
-  <label for="fname">First name:</label><br>
-  <input type="text" id="fname" name="fname" value=""><br><br>
-  <label for="lname">Last name:</label><br>
-  <input type="text" id="lname" name="lname" value=""><br><br>
-  <label for="lname">Email:</label><br>
-  <input type="text" id="email" name="email" value=""><br><br>
-  <label for="lname">Phone:</label><br>
-  <input type="text" id="phone" name="phone" value=""><br><br>
-
-
-  <input type="submit" value="Submit" onclick="return handleSubmit();">
-</form> 
 </body>
 </html>
